@@ -6,18 +6,19 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Traits\HasRoles;
+use Laravelista\Comments\Commenter;
 
 class User extends Authenticatable
 {
-    use Notifiable;
-
+    use Notifiable, HasRoles, Commenter;
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'cover', 'is_active', 'roll_id'
+        'name', 'email', 'password', 'cover', 'is_active'
     ];
 
     /**
@@ -39,10 +40,10 @@ class User extends Authenticatable
     ];
 
 
-    public function role()
-    {
-        return $this->belongsTo('App\Role');
-    }
+    // public function role()
+    // {
+    //     return $this->belongsTo('App\Role');
+    // }
 
 
     public function setCoverAttribute($cover)
@@ -50,13 +51,20 @@ class User extends Authenticatable
         $this->attributes['cover'] = str_replace("http://localhost:8000", "", $cover);
     }
 
-    public function isAdmin()
-    {
-        if ($this->role->name == 'Administrator' && $this->is_active == 1) {
 
-            return true;
-        } else {
-            return false;
-        }
+
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
     }
+
+    // public function isAdmin()
+    // {
+    //     if ($this->role->name == 'Administrator' && $this->is_active == 1) {
+
+    //         return true;
+    //     } else {
+    //         return false;
+    //     }
+    // }
 }

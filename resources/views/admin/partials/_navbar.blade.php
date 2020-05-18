@@ -17,8 +17,7 @@
             <span>Dashboard</span></a>
     </li>
 
-
-
+    @role('Administrator')
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item @yield('users')">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false"
@@ -38,7 +37,9 @@
         </div>
     </li>
 
+    @endrole
 
+    @role('Administrator|Author')
     <li class="nav-item @yield('posts')">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true"
             aria-controls="collapseTwo">
@@ -57,23 +58,25 @@
             </div>
         </div>
     </li>
+    @endrole
 
-
+    @role('Administrator')
     <!-- Nav Item - Categories -->
     <li class="nav-item @yield('categories')">
         <a class="nav-link" href="{{ route('categories.index') }}">
             <i class="fas fa-database    "></i>
             <span>Categories</span></a>
     </li>
+    @endrole
 
-
+    @role('Administrator|Author')
     <!-- Nav Item - Media Manager -->
     <li class="nav-item @yield('media-manager')">
         <a class="nav-link" href="/admin/media">
             <i class="fas fa-folder"></i>
             <span>Media Manager</span></a>
     </li>
-
+    @endrole
 
 
 </ul>

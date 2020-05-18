@@ -4,10 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
+use Laravelista\Comments\Commentable;
 
 class Post extends Model
 {
-    use Sluggable;
+    use Sluggable, Commentable;
 
     protected $fillable = [
         'user_id', 'title', 'cover', 'content'
@@ -20,6 +21,11 @@ class Post extends Model
     public function categories()
     {
         return $this->belongsToMany('App\Category');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 
     public function sluggable()

@@ -107,17 +107,31 @@
                         </div>
                         <div class="form-group">
 
-                            {!! Form::label('role_id','Select User Role') !!}
-                            {!! Form::select('role_id', $roles, null, ['class'=>'form-control']) !!}
+                            <div class="form-group">
+                                <label for="role_id">Select User Role</label>
+                                <select class="form-control" name="role_id" id="role_id">
+
+                                    @foreach ($roles as $role)
+                                    <option value="{{ $role->name }}" @if (count($user->
+                                        roles->where('name',$role->name)))
+                                        selected
+                                        @endif
+
+                                        >{{ $role->name }}</option>
+                                    @endforeach
+
+                                </select>
+                            </div>
+
+                            {{-- {!! Form::label('role_id','Select User Role') !!}
+                            {!! Form::select('role_id', $roles, null , ['class'=>'form-control']) !!} --}}
 
                         </div>
 
                         <div class="form-group">
-
                             {!! Form::label('is_active','Status') !!}
                             {!! Form::select('is_active', ['1' => 'Active', '0' => 'Inactive', ],
                             null,['class'=>'form-control']) !!}
-
                         </div>
 
                         <div id="pro-pic"></div>

@@ -17,7 +17,9 @@
         "laravel/framework": "^7.0",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^2.0",
-        "laravelcollective/html": "^6.1"
+        "laravelcollective/html": "^6.1",
+        "laravelista/comments": "^3.6",
+        "spatie/laravel-permission": "^3.12"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

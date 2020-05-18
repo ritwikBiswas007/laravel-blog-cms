@@ -4,8 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserEditRequest;
-use App\Photo;
-use App\Role;
+use Spatie\Permission\Models\Role;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -20,7 +19,7 @@ class AdminUsersController extends Controller
     public function index()
     {
 
-        $users = User::all();
+        $users = User::paginate(10);
 
         return view('admin.users.index', compact('users'));
     }
@@ -33,7 +32,7 @@ class AdminUsersController extends Controller
     public function create()
     {
 
-        $roles = Role::pluck('name', 'id')->all();
+        $roles = Role::pluck('name', 'name')->all();
 
         return view('admin.users.create', compact('roles'));
     }
@@ -57,9 +56,10 @@ class AdminUsersController extends Controller
             $input['password'] = Hash::make($request->password);
         }
 
-        User::create($input);
+        $user = User::create($input);
+        $user->assignRole($input['role_id']);
         session()->flash('updated_user', 'The User Has Been Created Successfully');
-        return redirect('/admin/user');
+        return redirect('/user');
     }
 
     /**
@@ -82,7 +82,7 @@ class AdminUsersController extends Controller
     public function edit($id)
     {
 
-        $roles = Role::pluck('name', 'id')->all();
+        $roles = Role::all();
         $user = User::findorFail($id);
 
         return view('admin.users.edit', compact('roles', 'user'));
@@ -109,8 +109,9 @@ class AdminUsersController extends Controller
         }
 
         $user->update($input);
+        $user->syncRoles($input['role_id']);
         session()->flash('updated_user', 'The User Has Been Updated Successfully');
-        return redirect('/admin/user');
+        return redirect('/user');
     }
 
     /**
@@ -123,18 +124,18 @@ class AdminUsersController extends Controller
     {
         $user = User::findOrFail($id);
 
-
-
         if ($user->cover != "/images/defaultAvatar.png") {
 
 
             unlink(public_path() . $user->cover);
         }
 
+        $user->removeRole($user->roles->first());
+
         $user->delete();
 
         session()->flash('deleted_user', 'The user has been deleted successfully');
 
-        return redirect('/admin/user');
+        return redirect('/user');
     }
 }

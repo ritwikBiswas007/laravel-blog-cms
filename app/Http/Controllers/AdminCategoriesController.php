@@ -46,7 +46,7 @@ class AdminCategoriesController extends Controller
         $category->save();
 
         session()->flash('created_category', 'The Category has been created successfully');
-        return redirect('/admin/categories');
+        return redirect('/categories');
     }
 
     /**
@@ -86,7 +86,7 @@ class AdminCategoriesController extends Controller
 
         $category->save();
         session()->flash('updated_category', 'The Category has been updated successfully');
-        return redirect('/admin/categories');
+        return redirect('/categories');
     }
 
     /**
@@ -101,6 +101,6 @@ class AdminCategoriesController extends Controller
         $category->posts()->detach();
         $category->delete();
         session()->flash('deleted_category', 'The Category has been deleted successfully');
-        return redirect('/admin/categories');
+        return redirect('/categories');
     }
 }

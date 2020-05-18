@@ -80,7 +80,13 @@ active
                         </td>
                         <td>{{ $user->name }}</td>
                         <td>{{ $user->email }}</td>
-                        <td>{{ $user->role->name }}</td>
+                        <td>
+
+                            @foreach ($user -> roles as $item)
+                            {{ $item->name }}
+                            @endforeach
+
+                        </td>
                         <td class="{{ $user->is_active == 1 ? 'text-success' : 'text-danger' }}">
                             <i class="{{ $user->is_active == 1 ? 'fas fa-check-circle' : 'fas fa-times-circle' }}"></i>
                             {{ $user->is_active == 1 ? 'Active' : 'Inactive' }}</td>
@@ -137,6 +143,9 @@ active
 
                 </tbody>
             </table>
+        </div>
+        <div class="text-center">
+            <div style="display: inline-block">{{ $users->render() }}</div>
         </div>
     </div>
 </div>

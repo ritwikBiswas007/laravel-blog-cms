@@ -1,9 +1,10 @@
 <?php
 
+use App\Category;
 use App\Post;
+use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,29 +17,50 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+
+    $featured = Post::orderBy('created_at', 'DESC')->take(3)->get();
+
+    $posts = Post::paginate(12);
+
+    return view('frontend.welcome', compact('featured', 'posts'));
 });
 
-// // MediaManager
-// ctf0\MediaManager\MediaRoutes::routes();
+
+Route::get('/post/{slug}', function ($slug) {
+    $post = Post::where('slug', $slug)->first();
+    $previous = Post::where('id', '<', $post->id)->first();
+    $next = Post::where('id', '>', $post->id)->first();
+
+    return view('frontend.post', compact('post', 'previous', 'next'));
+})->name('post.slug');
+
+
+Route::get('/category/{slug}', function ($slug) {
+    $category = Category::where('slug', $slug)->first();
+    $posts = $category->posts()->paginate(12);
+    return view('frontend.category', compact('category', 'posts'));
+})->name('category.slug');
+
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::group(['middleware' => ['role:Administrator']], function () {
+    Route::resource('/user', 'AdminUsersController');
+});
 
-
-
-
-Route::group(['middleware' => 'admin'], function () {
-
-    Route::resource('/admin/user', 'AdminUsersController');
-    Route::resource('/admin/posts', 'AdminPostsController');
-    Route::resource('/admin/categories', 'AdminCategoriesController');
-    Route::get('/admin/media', function () {
+Route::group(['middleware' => ['role:Author|Administrator']], function () {
+    Route::resource('/posts', 'AdminPostsController');
+    Route::get('/media-manager', function () {
         return view('admin.media.index');
     });
-    Route::get('/admin', function () {
+    Route::get('/dashboard', function () {
         return view('admin.index');
     });
     ctf0\MediaManager\MediaRoutes::routes();
+});
+
+Route::group(['middleware' => ['role:Administrator']], function () {
+    Route::resource('/categories', 'AdminCategoriesController');
 });

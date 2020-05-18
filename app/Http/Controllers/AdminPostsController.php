@@ -49,7 +49,7 @@ class AdminPostsController extends Controller
         $post->save();
         $post->categories()->attach($request->categories_id);
         session()->flash('created_post', 'The Post Has Been Created Successfully');
-        return redirect('/admin/posts/' . $post->id . '/edit');
+        return redirect('/posts/' . $post->id . '/edit');
     }
 
     /**
@@ -92,7 +92,7 @@ class AdminPostsController extends Controller
         $post->save();
         $post->categories()->sync($request->categories_id);
         session()->flash('updated_post', 'The Post Has Been Updated Successfully');
-        return redirect('/admin/posts/' . $post->id . '/edit');
+        return redirect('/posts/' . $post->id . '/edit');
     }
 
     /**
@@ -107,6 +107,6 @@ class AdminPostsController extends Controller
         $post->categories()->detach();
         $post->delete();
         session()->flash('deleted_post', 'The Post has been deleted successfully');
-        return redirect('/admin/posts');
+        return redirect('/posts');
     }
 }
