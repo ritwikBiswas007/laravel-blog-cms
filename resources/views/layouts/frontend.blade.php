@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="{{ asset('css/base.css') }}">
     <link rel="stylesheet" href="{{ asset('css/vendor.css') }}">
     <link rel="stylesheet" href="{{ asset('css/main.css') }}">
-
+    @yield('head')
     <!-- script
     ================================================== -->
     <script src="{{ asset('js/modernizr.js') }}"></script>
@@ -88,17 +88,27 @@
                     </ul>
                 </li>
                 @endif
-                <li class="has-children">
-                    <a href="javascript:void(0)" title="">Blog</a>
-                    <ul class="sub-menu">
-                        <li><a href="single-video.html">Video Post</a></li>
-                        <li><a href="single-audio.html">Audio Post</a></li>
-                        <li><a href="single-standard.html">Standard Post</a></li>
-                    </ul>
-                </li>
-                <li><a href="style-guide.html" title="">Styles</a></li>
                 <li><a href="page-about.html" title="">About</a></li>
                 <li><a href="page-contact.html" title="">Contact</a></li>
+
+                @if (Auth::guest())
+                <li><a href="/login" title="">Login</a></li>
+                <li><a href="/register" title="">Register</a></li>
+
+                @else
+                <li><a class="dropdown-item" href="{{ route('logout') }}"
+                        onclick="event.preventDefault();
+                                                                                     document.getElementById('logout-form').submit();">
+                        {{ __('Logout') }}
+                    </a></li>
+
+
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
+                @endif
+
+
             </ul> <!-- end header__nav -->
 
             <a href="javascript:void(0)" title="Close Menu" class="header__overlay-close close-mobile-menu">Close</a>

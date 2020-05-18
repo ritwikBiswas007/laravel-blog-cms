@@ -10,7 +10,7 @@
             {{ $errors->first('commentable_id') }}
         </div>
         @endif
-        <h3 class="h2">Add Comment <span>Your email address will not be published</span></h3>
+        <h3 style="margin-top: 50px" class="h2">Add Comment <span>Your email address will not be published</span></h3>
         <form method="POST" action="{{ route('comments.store') }}">
             @csrf
             @honeypot

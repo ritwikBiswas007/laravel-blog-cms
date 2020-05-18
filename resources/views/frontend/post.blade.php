@@ -1,11 +1,25 @@
 @extends('layouts.frontend')
 
+
+@section('head')
+<script type='text/javascript'
+    src='https://platform-api.sharethis.com/js/sharethis.js#property=5ec2a22134ee1a00128dc6e4&product=sticky-share-buttons&cms=sop'
+    async='async'></script>
+@endsection
 @section('body')
 
 <style>
     .comments-wrap {
         margin-top: 0px !important;
         padding-top: 0px !important;
+    }
+
+    .s-content__entry-nav {
+        margin-top: 0px !important;
+    }
+
+    .reaction-button {
+        margin: 25px 0px;
     }
 </style>
 
@@ -87,8 +101,9 @@
         </div> <!-- s-entry__main -->
 
     </article> <!-- end entry/article -->
-
-
+    <div class="reaction-button">
+        <div class="sharethis-inline-reaction-buttons"></div>
+    </div>
     <div class="s-content__entry-nav">
         <div class="row s-content__nav">
             <div class="col-six s-content__prev">

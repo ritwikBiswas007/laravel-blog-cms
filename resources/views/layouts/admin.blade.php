@@ -12,6 +12,7 @@
     <title>@yield('title')</title>
 
     @yield('head')
+    @yield('css')
 
     <!-- Custom fonts for this template-->
     <link href="{{ asset('vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">

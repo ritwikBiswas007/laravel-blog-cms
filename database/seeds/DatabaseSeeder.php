@@ -15,8 +15,8 @@ class DatabaseSeeder extends Seeder
     {
 
         // DB::statement('SET FOREIGN_KEY_CHECKS=0');
-        DB::table('users')->truncate();
-        DB::table('posts')->truncate();
+        // DB::table('users')->truncate();
+        // DB::table('posts')->truncate();
 
 
         factory(App\User::class, 30)->create()->each(function ($user) {
